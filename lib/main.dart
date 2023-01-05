@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:gql_dio_link/gql_dio_link.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:mediamanager_flutter/constants.dart';
+import 'package:mediamanager_flutter/queries/queries.dart';
 
 void main() async {
   await initHiveForFlutter();
@@ -77,8 +78,26 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Home Screen')),
-      body: Column(
-        children: [],
+      body: Query(
+        options: QueryOptions(
+          document: gql(Queries.getPopularMovies),
+          parserFn: (data) {
+            return data['getPopularMovies']['results'];
+          },
+        ),
+        builder: (result, {fetchMore, refetch}) {
+          return SingleChildScrollView(
+            child: Column(
+              children: result.parsedData.map<Widget>((movie) {
+                return Image.network(
+                  'https://image.tmdb.org/t/p/w500${movie['poster_path']}',
+                  fit: BoxFit.cover,
+                  height: 500,
+                );
+              }).toList(),
+            ),
+          );
+        },
       ),
     );
   }
@@ -92,14 +111,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  static const String login = """
-    mutation Login(\$credentials: loginCredentials!) {
-      login(credentials: \$credentials) {
-        username
-      }
-    }
-  """;
-
   String _email = "";
   String _password = "";
 
@@ -111,7 +122,7 @@ class _LoginPageState extends State<LoginPage> {
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: Mutation(
           options: MutationOptions(
-            document: gql(login),
+            document: gql(Queries.login),
             onCompleted: (dynamic resultData) {
               if (resultData != null) {
                 context.pushReplacement('/');
@@ -141,12 +152,14 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   const SizedBox(height: 32),
                   ElevatedButton(
-                    onPressed: () => runMutation({
-                      'credentials': {
-                        'email': _email,
-                        'password': _password,
-                      }
-                    }),
+                    onPressed: () {
+                      runMutation({
+                        'credentials': {
+                          'email': _email,
+                          'password': _password,
+                        }
+                      });
+                    },
                     child: const Text('Login'),
                   ),
                   const SizedBox(height: 16),
