@@ -28,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
             onCompleted: (dynamic resultData) {
               if (resultData != null) {
                 context.read<CookiesProvider>().isLoggedIn = true;
-                context.pushReplacement('/');
+                context.pop();
               }
             },
           ),

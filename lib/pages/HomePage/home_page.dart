@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mediamanager_flutter/pages/HomePage/MoviesPage/movies_page.dart';
 import 'package:mediamanager_flutter/pages/HomePage/TVShowsPage/tv_shows_page.dart';
+import 'package:mediamanager_flutter/pages/ProfilePage/profile_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -50,7 +51,7 @@ class _HomePageState extends State<HomePage> {
         children: const [
           MoviesPage(),
           TVShowsPage(),
-          Center(child: Text('Profile')),
+          ProfilePage(),
         ],
       ),
     );

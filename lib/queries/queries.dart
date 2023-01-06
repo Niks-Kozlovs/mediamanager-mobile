@@ -170,4 +170,49 @@ class Queries {
       }
     }
   """;
+
+  static const String getTVShowRecommendations = """
+    query GetTvShowRecommendations(\$tvShowId: Int!) {
+      getTvShowRecommendations(tvShowId: \$tvShowId) {
+        results {
+          poster_path
+          popularity
+          id
+          backdrop_path
+          vote_average
+          overview
+          first_air_date
+          origin_country
+          genre_ids
+          original_language
+          vote_count
+          name
+          original_name
+        }
+      }
+    }
+  """;
+
+  //TODO: Change to correct query
+  static const String getTVShowDetails = """
+    query GetTvShowRecommendations(\$tvShowId: Int!) {
+      getTvShowRecommendations(tvShowId: \$tvShowId) {
+        results {
+          poster_path
+          popularity
+          id
+          backdrop_path
+          vote_average
+          overview
+          first_air_date
+          origin_country
+          genre_ids
+          original_language
+          vote_count
+          name
+          original_name
+        }
+      }
+    }
+  """;
 }

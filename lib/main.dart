@@ -12,6 +12,7 @@ import 'package:mediamanager_flutter/pages/HomePage/home_page.dart';
 import 'package:mediamanager_flutter/pages/LoginPage/login_page.dart';
 import 'package:mediamanager_flutter/pages/MovieDetailsPage/movie_details_page.dart';
 import 'package:mediamanager_flutter/pages/RegisterPage/register_page.dart';
+import 'package:mediamanager_flutter/pages/TVShowDetailsPage/tv_show_details_page.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -26,26 +27,12 @@ final GoRouter _router = GoRouter(
   initialLocation: '/',
   routes: <RouteBase>[
     GoRoute(
-      redirect: (context, state) {
-        final isLoggedIn = context.read<CookiesProvider>().isLoggedin;
-        if (!isLoggedIn) {
-          return '/login';
-        }
-        return '/';
-      },
       path: '/login',
       builder: (BuildContext context, GoRouterState state) {
         return const LoginPage();
       },
     ),
     GoRoute(
-      redirect: (context, state) async {
-        final isLogedIn = context.read<CookiesProvider>().isLoggedin;
-        if (!isLogedIn) {
-          return '/login';
-        }
-        return '/';
-      },
       path: '/register',
       builder: (BuildContext context, GoRouterState state) {
         return const RegisterPage();
@@ -66,13 +53,27 @@ final GoRouter _router = GoRouter(
       path: '/movieDetails/:id',
       redirect: (context, state) {
         final movieId = state.params['id'];
-        if (movieId == null) {
+        if (movieId == null || movieId.isEmpty) {
           return '/404';
         }
         return '/movieDetails/$movieId';
       },
       builder: (context, state) {
         return MovieDetailsPage(movieId: state.params['id']!);
+      },
+    ),
+    GoRoute(
+      name: '/tvShowDetails',
+      path: '/tvShowDetails/:id',
+      redirect: (context, state) {
+        final tvShowId = state.params['id'];
+        if (tvShowId == null || tvShowId.isEmpty) {
+          return '/404';
+        }
+        return '/tvShowDetails/$tvShowId';
+      },
+      builder: (context, state) {
+        return TVShowDetailsPage(tvShowId: state.params['id']!);
       },
     ),
   ],
