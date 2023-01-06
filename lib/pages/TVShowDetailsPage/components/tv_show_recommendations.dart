@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:mediamanager_flutter/components/movie_carousel.dart';
+import 'package:mediamanager_flutter/components/tv_show_carousel.dart';
 import 'package:mediamanager_flutter/queries/queries.dart';
 
-class MovieRecommendations extends StatelessWidget {
-  final int movieId;
-  const MovieRecommendations({
+class TVShowRecommendations extends StatelessWidget {
+  final String tvShowId;
+  const TVShowRecommendations({
     super.key,
-    required this.movieId,
+    required this.tvShowId,
   });
 
   @override
   Widget build(BuildContext context) {
     return Query(
       options: QueryOptions(
-        document: gql(Queries.getMovieRecommendations),
+        document: gql(Queries.getTVShowRecommendations),
         variables: <String, dynamic>{
-          'movieId': movieId,
+          'tvShowId': int.parse(tvShowId),
         },
-        parserFn: (data) => data['getMovieRecomendations']['results'],
+        parserFn: (data) => data['getTvShowRecommendations']['results'],
       ),
       builder: (
         QueryResult result, {
@@ -35,15 +35,15 @@ class MovieRecommendations extends StatelessWidget {
           );
         }
 
-        final movies = result.parsedData as List<dynamic>;
+        final tvShows = result.parsedData as List<dynamic>;
 
-        if (movies.isEmpty) {
+        if (tvShows.isEmpty) {
           return const SizedBox.shrink();
         }
 
-        return MovieCarousel(
-          movies: movies,
-          title: "Recommended movies",
+        return TVShowCarousel(
+          tvShows: tvShows,
+          title: "Recommended tv shows",
         );
       },
     );

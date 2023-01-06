@@ -193,10 +193,37 @@ class Queries {
     }
   """;
 
-  //TODO: Change to correct query
   static const String getTVShowDetails = """
-    query GetTvShowRecommendations(\$tvShowId: Int!) {
-      getTvShowRecommendations(tvShowId: \$tvShowId) {
+    query SearchTVShows(\$tvShowId: String!) {
+      getTVShowDetails(tvShowId: \$tvShowId) {
+        backdrop_path
+        homepage
+        id
+        in_production
+        name
+        overview
+        popularity
+        poster_path
+        seasons {
+          air_date
+          episode_count
+          id
+          name
+          overview
+          poster_path
+          season_number
+        }
+        status
+        type
+        vote_average
+        vote_count
+      }
+    }
+  """;
+
+  static const String searchTVShows = """
+    query SearchTVShows(\$query: String!) {
+      searchTVShows(query: \$query) {
         results {
           poster_path
           popularity
@@ -209,8 +236,31 @@ class Queries {
           genre_ids
           original_language
           vote_count
-          name
+          title: name
           original_name
+        }
+      }
+    }
+  """;
+
+  static const String searchMovies = """
+    query SearchMovies(\$query: String!) {
+      searchMovies(query: \$query) {
+        results {
+          poster_path
+          adult
+          overview
+          release_date
+          genre_ids
+          id
+          original_title
+          original_language
+          title
+          backdrop_path
+          popularity
+          vote_count
+          video
+          vote_average
         }
       }
     }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mediamanager_flutter/pages/HomePage/MoviesPage/movies_page.dart';
+import 'package:mediamanager_flutter/pages/HomePage/SearchPage/search_page.dart';
 import 'package:mediamanager_flutter/pages/HomePage/TVShowsPage/tv_shows_page.dart';
-import 'package:mediamanager_flutter/pages/ProfilePage/profile_page.dart';
+import 'package:mediamanager_flutter/pages/HomePage/ProfilePage/profile_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -40,6 +41,10 @@ class _HomePageState extends State<HomePage> {
             label: 'TV Shows',
           ),
           NavigationDestination(
+            icon: Icon(Icons.search),
+            label: "Search",
+          ),
+          NavigationDestination(
             icon: Icon(Icons.account_circle_outlined),
             label: "Profile",
           ),
@@ -51,6 +56,7 @@ class _HomePageState extends State<HomePage> {
         children: const [
           MoviesPage(),
           TVShowsPage(),
+          SearchPage(),
           ProfilePage(),
         ],
       ),
