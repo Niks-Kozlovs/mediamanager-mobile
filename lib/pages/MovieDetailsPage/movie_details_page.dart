@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:mediamanager_flutter/pages/MovieDetailsPage/Components/movie_recommendations.dart';
 import 'package:mediamanager_flutter/queries/queries.dart';
 
 class MovieDetailsPage extends StatelessWidget {
@@ -48,6 +49,9 @@ class MovieDetailsPage extends StatelessWidget {
                 ),
                 Text(movie['title']),
                 Text(movie['overview']),
+                MovieRecommendations(
+                  movieId: int.parse(movieId),
+                ),
               ],
             ),
           );

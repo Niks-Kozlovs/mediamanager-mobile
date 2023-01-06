@@ -38,6 +38,10 @@ class _HomePageState extends State<HomePage> {
             icon: Icon(Icons.tv),
             label: 'TV Shows',
           ),
+          NavigationDestination(
+            icon: Icon(Icons.account_circle_outlined),
+            label: "Profile",
+          ),
         ],
       ),
       body: PageView(
@@ -46,6 +50,7 @@ class _HomePageState extends State<HomePage> {
         children: const [
           MoviesPage(),
           TVShowsPage(),
+          Center(child: Text('Profile')),
         ],
       ),
     );

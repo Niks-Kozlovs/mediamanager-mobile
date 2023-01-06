@@ -103,4 +103,71 @@ class Queries {
       }
     }
   """;
+
+  static const String getMovieRecommendations = """
+    query GetMovieRecomendations(\$movieId: Int!) {
+      getMovieRecomendations(movieId: \$movieId) {
+        results {
+          poster_path
+          adult
+          overview
+          release_date
+          genre_ids
+          id
+          original_title
+          original_language
+          title
+          backdrop_path
+          popularity
+          vote_count
+          video
+          vote_average
+        }
+      }
+    }
+  """;
+
+  static const String getPopularTVShows = """
+    query GetPopularTvShows {
+      getPopularTvShows {
+        results {
+          poster_path
+          popularity
+          id
+          backdrop_path
+          vote_average
+          overview
+          first_air_date
+          origin_country
+          genre_ids
+          original_language
+          vote_count
+          name
+          original_name
+        }
+      }
+    }
+  """;
+
+  static const String getAiringSoonTVShows = """
+    query GetAringSoonTvShows {
+      getAringSoonTvShows {
+        results {
+          poster_path
+          popularity
+          id
+          backdrop_path
+          vote_average
+          overview
+          first_air_date
+          origin_country
+          genre_ids
+          original_language
+          vote_count
+          name
+          original_name
+        }
+      }
+    }
+  """;
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:mediamanager_flutter/pages/HomePage/MoviesPage/Components/movie_carousel.dart';
+import 'package:mediamanager_flutter/components/movie_carousel.dart';
 import 'package:mediamanager_flutter/queries/queries.dart';
 
 class MoviesPage extends StatelessWidget {

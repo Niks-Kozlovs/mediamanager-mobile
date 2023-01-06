@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
@@ -10,22 +12,40 @@ import 'package:mediamanager_flutter/pages/HomePage/home_page.dart';
 import 'package:mediamanager_flutter/pages/LoginPage/login_page.dart';
 import 'package:mediamanager_flutter/pages/MovieDetailsPage/movie_details_page.dart';
 import 'package:mediamanager_flutter/pages/RegisterPage/register_page.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   await initHiveForFlutter();
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+    create: (context) => CookiesProvider(),
+    child: const MyApp(),
+  ));
 }
 
 final GoRouter _router = GoRouter(
-  initialLocation: '/login',
+  initialLocation: '/',
   routes: <RouteBase>[
     GoRoute(
+      redirect: (context, state) {
+        final isLoggedIn = context.read<CookiesProvider>().isLoggedin;
+        if (!isLoggedIn) {
+          return '/login';
+        }
+        return '/';
+      },
       path: '/login',
       builder: (BuildContext context, GoRouterState state) {
         return const LoginPage();
       },
     ),
     GoRoute(
+      redirect: (context, state) async {
+        final isLogedIn = context.read<CookiesProvider>().isLoggedin;
+        if (!isLogedIn) {
+          return '/login';
+        }
+        return '/';
+      },
       path: '/register',
       builder: (BuildContext context, GoRouterState state) {
         return const RegisterPage();
@@ -66,7 +86,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dio = Dio();
-    final cookieJar = CookieJar();
+    final cookieJar = context.read<CookiesProvider>().cookieJar;
     dio.interceptors.add(CookieManager(cookieJar));
 
     final Link link = DioLink(
@@ -89,5 +109,29 @@ class MyApp extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class CookiesProvider extends ChangeNotifier {
+  final _cookieJar = CookieJar();
+  bool _isLoggedin = false;
+
+  CookieJar get cookieJar => _cookieJar;
+
+  bool get isLoggedin => _isLoggedin;
+
+  set isLoggedIn(bool value) {
+    _isLoggedin = value;
+    notifyListeners();
+  }
+
+  void clearCookies() {
+    _cookieJar.deleteAll();
+    _isLoggedin = false;
+    notifyListeners();
+  }
+
+  Future<List<Cookie>> getCookies() async {
+    return _cookieJar.loadForRequest(Uri.parse(API_URL));
   }
 }

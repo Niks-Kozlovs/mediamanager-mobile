@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:mediamanager_flutter/main.dart';
 import 'package:mediamanager_flutter/queries/queries.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -25,6 +27,7 @@ class _LoginPageState extends State<LoginPage> {
             document: gql(Queries.login),
             onCompleted: (dynamic resultData) {
               if (resultData != null) {
+                context.read<CookiesProvider>().isLoggedIn = true;
                 context.pushReplacement('/');
               }
             },
