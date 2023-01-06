@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
@@ -6,6 +7,9 @@ import 'package:go_router/go_router.dart';
 import 'package:gql_dio_link/gql_dio_link.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:mediamanager_flutter/constants.dart';
+import 'package:mediamanager_flutter/pages/HomePage/home_page.dart';
+import 'package:mediamanager_flutter/pages/LoginPage/login_page.dart';
+import 'package:mediamanager_flutter/pages/RegisterPage/register_page.dart';
 import 'package:mediamanager_flutter/queries/queries.dart';
 
 void main() async {
@@ -65,157 +69,6 @@ class MyApp extends StatelessWidget {
         routerConfig: _router,
         theme: ThemeData(
           primarySwatch: Colors.blue,
-        ),
-      ),
-    );
-  }
-}
-
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Home Screen')),
-      body: Query(
-        options: QueryOptions(
-          document: gql(Queries.getPopularMovies),
-          parserFn: (data) {
-            return data['getPopularMovies']['results'];
-          },
-        ),
-        builder: (result, {fetchMore, refetch}) {
-          return SingleChildScrollView(
-            child: Column(
-              children: result.parsedData.map<Widget>((movie) {
-                return Image.network(
-                  'https://image.tmdb.org/t/p/w500${movie['poster_path']}',
-                  fit: BoxFit.cover,
-                  height: 500,
-                );
-              }).toList(),
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
-
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
-
-  @override
-  State<LoginPage> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-  String _email = "";
-  String _password = "";
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Home Screen')),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: Mutation(
-          options: MutationOptions(
-            document: gql(Queries.login),
-            onCompleted: (dynamic resultData) {
-              if (resultData != null) {
-                context.pushReplacement('/');
-              }
-            },
-          ),
-          builder: (runMutation, result) {
-            if (result != null && result.hasException) {
-              return Text(result.exception.toString());
-            }
-            return Form(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextFormField(
-                    onChanged: (value) => _email = value,
-                    decoration: const InputDecoration(
-                      hintText: 'Enter your email',
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  TextFormField(
-                    onChanged: (value) => _password = value,
-                    decoration: const InputDecoration(
-                      hintText: 'Enter your password',
-                    ),
-                  ),
-                  const SizedBox(height: 32),
-                  ElevatedButton(
-                    onPressed: () {
-                      runMutation({
-                        'credentials': {
-                          'email': _email,
-                          'password': _password,
-                        }
-                      });
-                    },
-                    child: const Text('Login'),
-                  ),
-                  const SizedBox(height: 16),
-                  TextButton(
-                    onPressed: () => context.pushReplacement('/register'),
-                    child: const Text('Register'),
-                  ),
-                ],
-              ),
-            );
-          },
-        ),
-      ),
-    );
-  }
-}
-
-class RegisterPage extends StatelessWidget {
-  const RegisterPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Register')),
-      body: Form(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextFormField(
-              decoration: const InputDecoration(
-                hintText: 'Enter your email',
-              ),
-            ),
-            const SizedBox(height: 16),
-            TextFormField(
-              decoration: const InputDecoration(
-                hintText: 'Enter your password',
-              ),
-            ),
-            const SizedBox(height: 16),
-            TextFormField(
-              decoration: const InputDecoration(
-                hintText: 'Confirm your password',
-              ),
-            ),
-            const SizedBox(height: 32),
-            ElevatedButton(
-              onPressed: () => print("Register"),
-              child: const Text('Register'),
-            ),
-            const SizedBox(height: 16),
-            TextButton(
-              onPressed: () => context.pushReplacement('/login'),
-              child: const Text('Login'),
-            ),
-          ],
         ),
       ),
     );
