@@ -21,7 +21,7 @@ class MoviesPage extends StatelessWidget {
 }
 
 class _PopularMovies extends StatelessWidget {
-  const _PopularMovies({super.key});
+  const _PopularMovies();
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +55,7 @@ class _PopularMovies extends StatelessWidget {
 }
 
 class _TopRatedMovies extends StatelessWidget {
-  const _TopRatedMovies({super.key});
+  const _TopRatedMovies();
 
   @override
   Widget build(BuildContext context) {

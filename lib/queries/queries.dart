@@ -75,4 +75,32 @@ class Queries {
       }
     }
   """;
+
+  static const String getMovieDetails = """
+    query GetMovieDetails(\$movieId: Int!) {
+      getMovieDetails(movieId: \$movieId) {
+        poster_path
+        adult
+        overview
+        release_date
+        genre_ids
+        id
+        original_title
+        original_language
+        title
+        backdrop_path
+        popularity
+        vote_count
+        video
+        vote_average
+        budget
+        homepage
+        imdb_id
+        revenue
+        runtime
+        status
+        tagline
+      }
+    }
+  """;
 }

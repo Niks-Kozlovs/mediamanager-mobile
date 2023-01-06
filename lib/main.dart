@@ -1,4 +1,3 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
@@ -9,8 +8,8 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:mediamanager_flutter/constants.dart';
 import 'package:mediamanager_flutter/pages/HomePage/home_page.dart';
 import 'package:mediamanager_flutter/pages/LoginPage/login_page.dart';
+import 'package:mediamanager_flutter/pages/MovieDetailsPage/movie_details_page.dart';
 import 'package:mediamanager_flutter/pages/RegisterPage/register_page.dart';
-import 'package:mediamanager_flutter/queries/queries.dart';
 
 void main() async {
   await initHiveForFlutter();
@@ -36,6 +35,24 @@ final GoRouter _router = GoRouter(
       path: '/',
       builder: (context, state) {
         return const HomePage();
+      },
+    ),
+    GoRoute(
+      path: '/404',
+      builder: (context, state) => const Text('404'),
+    ),
+    GoRoute(
+      name: '/movieDetails',
+      path: '/movieDetails/:id',
+      redirect: (context, state) {
+        final movieId = state.params['id'];
+        if (movieId == null) {
+          return '/404';
+        }
+        return '/movieDetails/$movieId';
+      },
+      builder: (context, state) {
+        return MovieDetailsPage(movieId: state.params['id']!);
       },
     ),
   ],

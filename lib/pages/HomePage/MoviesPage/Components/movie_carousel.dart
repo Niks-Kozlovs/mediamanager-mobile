@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class MovieCarousel extends StatefulWidget {
   final List movies;
@@ -37,10 +38,7 @@ class _MovieCarouselState extends State<MovieCarousel> {
         ),
         CarouselSlider(
           items: widget.movies
-              .map<Widget>((movie) => Image.network(
-                    'https://image.tmdb.org/t/p/w500${movie['poster_path']}',
-                    fit: BoxFit.cover,
-                  ))
+              .map<Widget>((movie) => _MovieCard(movie: movie))
               .toList(),
           options: CarouselOptions(
             onPageChanged: (index, reason) {
@@ -58,6 +56,27 @@ class _MovieCarouselState extends State<MovieCarousel> {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _MovieCard extends StatelessWidget {
+  final dynamic movie;
+  const _MovieCard({
+    Key? key,
+    required this.movie,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        context.pushNamed('/movieDetails', params: {'id': movie['id']});
+      },
+      child: Image.network(
+        'https://image.tmdb.org/t/p/w500${movie['poster_path']}',
+        fit: BoxFit.cover,
+      ),
     );
   }
 }
