@@ -265,4 +265,25 @@ class Queries {
       }
     }
   """;
+
+  static const String getMovieWatchlist = """
+    query GetMovieWatchlist {
+      getMovieWatchlist {
+        poster_path
+        adult
+        overview
+        release_date
+        genre_ids
+        id
+        original_title
+        original_language
+        title
+        backdrop_path
+        popularity
+        vote_count
+        video
+        vote_average
+      }
+    }
+""";
 }
